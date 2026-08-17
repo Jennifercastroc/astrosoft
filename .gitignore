@@ -1,0 +1,52 @@
+# Corpus y datos pesados (nunca versionar el corpus crudo)
+data/raw/
+data/processed/
+data/chunks/
+
+# Artefactos generados (se regeneran con los scripts, no se versionan)
+artifacts/
+reports/*.json
+reports/*.csv
+reports/errors.jsonl
+
+# Entrega final (se genera con generador.py, no se versiona a medias)
+entrega/base_vectorial/
+entrega/resultados.jsonl
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+
+# Sistema
+.DS_Store
+
+# Corpus original
+data/raw/
+
+# Datos procesados/generados
+data/processed/
+data/embeddings/
+data/vectorstore/
+
+# Entornos
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Variables/secretos
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Cache
+.pytest_cache/

@@ -1,0 +1,24 @@
+# CODEFEST AD ASTRA 2026 - dependencias
+# Solo lo que realmente se usa en el pipeline.
+
+pyyaml>=6.0
+numpy>=1.26
+pandas>=2.2
+
+# Extracción
+PyMuPDF>=1.24        # PDF (pdf.py)
+openpyxl>=3.1         # XLSX (xlsx_loader.py)
+
+# Embeddings / retrieval
+sentence-transformers>=3.0
+faiss-cpu>=1.8
+rank-bm25>=0.2.2
+
+# Idioma / limpieza
+langdetect>=1.0.9
+
+# Grafo (opcional, solo si graph.enabled=true)
+networkx>=3.3
+
+# Tests
+pytest>=8.0

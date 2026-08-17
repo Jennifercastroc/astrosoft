@@ -1,0 +1,23 @@
+Fenómeno,Observatorio,Código,PDF,JSON,CSV,Excel,Imagen,Texto,PBF (Mapas),Total datos
+F1 — IA y Capacidades Estratégicas,AI_Index_Stanford,AIINDEX,44,0,17,4,0,0,0,65
+F1 — IA y Capacidades Estratégicas,Atlantic_Council,ATLCOUNCIL,0,186,0,0,0,0,0,186
+F1 — IA y Capacidades Estratégicas,CENIA,CENIA,12,15,0,0,0,0,0,27
+F1 — IA y Capacidades Estratégicas,CSET_Georgetown,CSET,127,0,0,0,0,0,0,127
+F1 — IA y Capacidades Estratégicas,DAIO,DAIO,33,1,1,0,0,0,0,35
+F1 — IA y Capacidades Estratégicas,Defensa21_LatAm,DEFENSA21,0,2,0,0,0,0,0,2
+F1 — IA y Capacidades Estratégicas,ILIA_Latam,ILIA,10,0,0,0,0,0,0,10
+F1 — IA y Capacidades Estratégicas,RutaN_GEIAL,RUTAN,5,1,1,0,0,0,0,7
+F2 — Seguridad del Entorno Espacial,CSIS_Aerospace,CSIS,110,103,1,0,0,0,0,214
+F2 — Seguridad del Entorno Espacial,ESA_Space_Debris,ESA,24,16,0,0,0,0,0,40
+F2 — Seguridad del Entorno Espacial,INPE,INPE,4,55,0,0,0,0,0,59
+F2 — Seguridad del Entorno Espacial,SWF_Counterspace,SWF,68,56,1,0,8,1,1,135
+F2 — Seguridad del Entorno Espacial,UNOOSA,UNOOSA,31,0,0,0,0,0,0,31
+F3 — Dinámicas Territoriales,Alertas_Tempranas,ALERTAS,62,363,0,0,0,0,0,425
+F3 — Dinámicas Territoriales,Amazon_Underworld,AMAZONUW,0,1,1,0,0,0,73,75
+F3 — Dinámicas Territoriales,CEEEP,CEEEP,0,80,0,0,0,0,0,80
+F3 — Dinámicas Territoriales,CEOBS,CEOBS,17,20,1,0,0,0,0,38
+F3 — Dinámicas Territoriales,MAPP_OEA,MAPPOEA,33,1,1,0,0,0,0,35
+F3 — Dinámicas Territoriales,RESDAL,RESDAL,105,1,1,0,0,0,0,107
+F3 — Dinámicas Territoriales,SIPRI,SIPRI,74,53,1,0,0,0,0,128
+F3 — Dinámicas Territoriales,Wilson_Center,WILSON,0,0,0,0,0,0,0,0
+TOTAL,,,759,954,26,4,8,1,74,1826

@@ -1,0 +1,138 @@
+# =========================================================
+# CODEFEST AD ASTRA 2026 - config.yaml
+# Configuración central. NADA de rutas/parámetros críticos
+# debe estar hardcodeado en otros archivos: todo pasa por aquí.
+# =========================================================
+
+paths:
+  # Ruta al corpus crudo (root que contiene las carpetas por fenómeno/observatorio).
+  # Cámbiala aquí, NUNCA hardcodees rutas absolutas en el código.
+  corpus_path: "./data/raw"
+
+  # Índice oficial resumen (CSV agregado por observatorio, provisto por ADL).
+  # No es un manifiesto por archivo: se usa solo para validar totales esperados
+  # durante la auditoría (sanity check), no como fuente de rutas.
+  official_index_csv: "./data/index/Indice_Datos_Codefest_Indice.csv"
+  official_index_csv_encoding: "cp1252"   # confirmado por inspección directa, NO utf-8
+
+  queries_path: "./data/queries/queries.jsonl"
+
+  processed_dir: "./data/processed"
+  chunks_dir: "./data/chunks"
+
+  reports_dir: "./reports"
+  errors_log: "./reports/errors.jsonl"
+
+  artifacts_dir: "./artifacts"
+  faiss_dir: "./artifacts/faiss"
+  metadata_dir: "./artifacts/metadata"
+  graph_dir: "./artifacts/graph"
+
+  entrega_dir: "./entrega"
+  resultados_jsonl: "./entrega/resultados.jsonl"
+  base_vectorial_dir: "./entrega/base_vectorial"
+
+# Fenómenos oficiales del reto (código -> nombre).
+phenomena:
+  F1: "IA y Capacidades Estratégicas"
+  F2: "Seguridad del Entorno Espacial"
+  F3: "Dinámicas Territoriales"
+
+# Observatorios conocidos por el índice oficial (para mapear carpeta -> fenómeno
+# de forma determinística cuando el nombre de carpeta coincide con el código).
+# Totales tomados del CSV oficial (Indice_Datos_Codefest_Indice_.csv), usados
+# como sanity-check en la auditoría, NUNCA como sustituto de escanear el corpus real.
+observatorios:
+  F1:
+    - {codigo: AIINDEX,    nombre: AI_Index_Stanford,  total_esperado: 65}
+    - {codigo: ATLCOUNCIL, nombre: Atlantic_Council,   total_esperado: 186}
+    - {codigo: CENIA,      nombre: CENIA,               total_esperado: 27}
+    - {codigo: CSET,       nombre: CSET_Georgetown,     total_esperado: 127}
+    - {codigo: DAIO,       nombre: DAIO,                total_esperado: 35}
+    - {codigo: DEFENSA21,  nombre: Defensa21_LatAm,     total_esperado: 2}
+    - {codigo: ILIA,       nombre: ILIA_Latam,          total_esperado: 10}
+    - {codigo: RUTAN,      nombre: RutaN_GEIAL,         total_esperado: 7}
+  F2:
+    - {codigo: CSIS,       nombre: CSIS_Aerospace,      total_esperado: 214}
+    - {codigo: ESA,        nombre: ESA_Space_Debris,    total_esperado: 40}
+    - {codigo: INPE,       nombre: INPE,                total_esperado: 59}
+    - {codigo: SWF,        nombre: SWF_Counterspace,    total_esperado: 135}
+    - {codigo: UNOOSA,     nombre: UNOOSA,              total_esperado: 31}
+  F3:
+    - {codigo: ALERTAS,    nombre: Alertas_Tempranas,   total_esperado: 425}
+    - {codigo: AMAZONUW,   nombre: Amazon_Underworld,   total_esperado: 75}
+    - {codigo: CEEEP,      nombre: CEEEP,               total_esperado: 80}
+    - {codigo: CEOBS,      nombre: CEOBS,               total_esperado: 38}
+    - {codigo: MAPPOEA,    nombre: MAPP_OEA,            total_esperado: 35}
+    - {codigo: RESDAL,     nombre: RESDAL,              total_esperado: 107}
+    - {codigo: SIPRI,      nombre: SIPRI,               total_esperado: 128}
+    - {codigo: WILSON,     nombre: Wilson_Center,       total_esperado: 0}
+
+total_documentos_esperado: 1826
+
+audit:
+  # Extensiones reconocidas y su categoría lógica.
+  extension_map:
+    ".pdf": pdf
+    ".json": json
+    ".csv": csv
+    ".xlsx": excel
+    ".xls": excel
+    ".jpg": imagen
+    ".jpeg": imagen
+    ".png": imagen
+    ".txt": texto
+    ".pbf": pbf
+  # Tamaño de bloque para hashing/lectura incremental (bytes).
+  read_chunk_bytes: 1048576
+  # No cargar archivos más grandes que esto en memoria de una sola vez (bytes) sin streaming.
+  large_file_threshold_bytes: 52428800   # 50 MB
+
+embedding:
+  # Se define tras la fase de comparación de encoders (Prioridad 2). Placeholder documentado.
+  candidates:
+    - "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+    - "intfloat/multilingual-e5-base"
+    - "BAAI/bge-m3"
+  selected: null   # se fija en scripts/05_embed.py tras la comparación (Fase 4)
+  batch_size: 32
+  normalize: true
+  max_seq_length: 512
+
+chunking:
+  strategy: "hybrid"     # parrafo | oracion | estructural | hybrid
+  max_tokens: 220         # límite interno (tokens), distinto del límite de 250 PALABRAS del output final
+  min_tokens: 40
+  overlap_tokens: 0        # la estrategia híbrida evita solapamiento; se revisa en Fase 3
+  no_cut_sentences: true   # regla absoluta
+
+retrieval:
+  top_k_fragments: 10
+  top_k_documents: 3
+  candidate_pool_k: 100
+  bm25:
+    enabled: false   # se activa en Fase 6 tras validar el baseline FAISS
+    k1: 1.5
+    b: 0.75
+  fusion:
+    method: "rrf"    # reciprocal rank fusion
+    rrf_k: 60
+  reranker:
+    enabled: false   # se activa en Fase 7 (cross-encoder no generativo)
+    model: null
+    candidate_pool_k: 100
+
+document_ranking:
+  method: "sum_top2"   # max_score | sum_top2 | avg_topk ; se decide con experimentos (Fase 8)
+
+graph:
+  enabled: false   # OPCIONAL, solo si sobra tiempo tras retrieval sólido (Fase 9)
+  ner_model_license_whitelist: ["Apache-2.0", "MIT", "CC-BY-4.0"]
+
+output:
+  max_words_per_fragment: 250
+
+runtime:
+  device: "cpu"     # cambia a "cuda" si hay GPU disponible al ejecutar
+  workers: 4
+  seed: 42
