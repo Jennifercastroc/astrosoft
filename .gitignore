@@ -2,6 +2,7 @@
 data/raw/
 data/processed/
 data/chunks/
+data/index/
 
 # Artefactos generados (se regeneran con los scripts, no se versionan)
 artifacts/
@@ -50,3 +51,11 @@ __pycache__/
 
 # Cache
 .pytest_cache/
+
+#vsc, so
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

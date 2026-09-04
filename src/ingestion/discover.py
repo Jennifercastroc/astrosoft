@@ -134,22 +134,29 @@ def discover_corpus(
         dirs[:] = [d for d in dirs if not d.startswith(".")]
         for fname in files:
             if fname.startswith("."):
-                continue
+                    continue
             abs_path = Path(root) / fname
+            
+            # Convierte abs_path al formato de ruta extendida en Windows para superar el límite de 260 caracteres
+            abs_path_str = str(abs_path)
+            if os.name == "nt" and not abs_path_str.startswith("\\\\?\\"):
+                abs_path_str = "\\\\?\\" + os.path.abspath(abs_path_str)
+
             try:
-                size = abs_path.stat().st_size
+                size = os.path.getsize(abs_path_str)
             except OSError as e:
                 log.warning(f"No se pudo hacer stat() de {abs_path}: {e}")
                 continue
 
-            rel_path = abs_path.relative_to(corpus_path)
+            # Normaliza la ruta relativa con "/" (as_posix) para compatibilidad multiplataforma
+            rel_path = abs_path.relative_to(corpus_path).as_posix()
             ext = abs_path.suffix.lower()
             formato = ext_map.get(ext, "otro")
-            fenomeno, observatorio = _infer_fenomeno_observatorio(rel_path, lookup)
+            fenomeno, observatorio = _infer_fenomeno_observatorio(Path(rel_path), lookup)
 
             df = DiscoveredFile(
                 path=str(abs_path),
-                rel_path=str(rel_path),
+                rel_path=rel_path,
                 filename=fname,
                 extension=ext,
                 formato=formato,
